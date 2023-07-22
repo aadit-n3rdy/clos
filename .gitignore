@@ -1,5 +1,5 @@
-obj/**.c.o
-obj/**.asm.o
 .cache/**
 virtbox/**
-out/*.*
+out
+**/obj
+**/lib*.a

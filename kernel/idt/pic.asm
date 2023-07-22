@@ -5,8 +5,8 @@ kb_msg: db "Keyboard interrupt, scancode: 0x", 0
 newline: db 10, 0
 KEY_TABLE: times 256 db 0
 
-extern term_puts
-extern term_put_uint
+extern vga_puts
+extern vga_put_uint
 
 section .text
 
@@ -18,7 +18,7 @@ pic_isr_kb:
 	push ebx
 
 	push kb_msg
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	xor eax, eax
@@ -26,11 +26,11 @@ pic_isr_kb:
 
 	push 16
 	push eax
-	call term_put_uint
+	call vga_put_uint
 	add esp, 8
 
 	push newline
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	mov al, 0x20

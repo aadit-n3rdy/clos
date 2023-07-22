@@ -1,6 +1,6 @@
 
 #include "io.h"
-#include "pic.h"
+#include "idt/pic.h"
 
 int pic_init() {
 	unsigned char mask1, mask2;

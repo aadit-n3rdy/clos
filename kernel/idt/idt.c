@@ -1,9 +1,9 @@
 
-#include "idt.h"
+#include "idt/idt.h"
 
-#include "gdt.h"
-#include "isr.h"
-#include "terminal.h"
+#include "gdt/gdt.h"
+#include "idt/isr.h"
+#include "vga/vga.h"
 
 int idt_encode_entry(struct idt_desc *desc, void *isr, unsigned char flags) {
 	desc->isr_high = (unsigned int)isr>>16;
@@ -15,12 +15,12 @@ int idt_encode_entry(struct idt_desc *desc, void *isr, unsigned char flags) {
 }
 
 int idt_fill(struct idt_desc idt[256], void **isr_table) {
-	term_puts("Called idt_fill at address: 0x");
-	term_put_uint((unsigned int)idt, 16);
-	term_puts("\n");
+	vga_puts("Called idt_fill at address: 0x");
+	vga_put_uint((unsigned int)idt, 16);
+	vga_puts("\n");
 	for (int i = 0; i < 256; i++) {
 		idt_encode_entry(idt+i, isr_table[i], 0x8E);
 	}
-	term_puts("Finished filling idt\n");
+	vga_puts("Finished filling idt\n");
 	return 0;
 }

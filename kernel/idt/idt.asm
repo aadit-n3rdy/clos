@@ -14,8 +14,8 @@ newline db 10, 0
 
 extern SEGDESC_KERNEL_CODE
 extern idt_fill
-extern term_puts
-extern term_put_uint
+extern vga_puts
+extern vga_put_uint
 extern ISR_TABLE
 extern pic_isr_kb
 
@@ -27,7 +27,7 @@ idt_init:
 	mov ebp, esp
 
 	push debug_msg
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	mov eax, _IDT_END
@@ -39,11 +39,11 @@ idt_init:
 
 	push dword 10
 	push eax
-	call term_put_uint
+	call vga_put_uint
 	add esp, 8
 
 	push newline
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	push eax

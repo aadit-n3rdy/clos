@@ -1,6 +1,6 @@
 
-extern term_puts
-extern term_put_uint
+extern vga_puts
+extern vga_put_uint
 
 %macro push_reg 0
 push eax
@@ -35,21 +35,21 @@ isr_stub_%+%1:
 	mov [isr_recurse_lvl], al
 
 	push default_message
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	mov eax, isr_msgs
 	add eax, 3*%1
 	push eax
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	push newline
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	push recurse_lvl_message
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	xor eax, eax
@@ -57,21 +57,21 @@ isr_stub_%+%1:
 
 	push dword 10
 	push eax
-	call term_put_uint
+	call vga_put_uint
 	add esp, 8
 
 	push newline
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	push err_message
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	mov ecx, [ebp]
 	push dword 16
 	push ecx
-	call term_put_uint
+	call vga_put_uint
 	add esp, 8
 
 	mov al, [isr_recurse_lvl]
@@ -98,17 +98,17 @@ isr_stub_%+%1:
 	push_reg
 
 	push default_message
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	mov eax, isr_msgs
 	add eax, 3*%1
 	push eax
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	push newline
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	mov al, [isr_recurse_lvl]
@@ -226,7 +226,7 @@ isr_default:
 	push edx
 
 	push default_isr_message
-	call term_puts
+	call vga_puts
 	add esp, 4
 
 	pop edx

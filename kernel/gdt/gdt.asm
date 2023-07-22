@@ -5,8 +5,6 @@ resb 96
 _GDT_END:
 
 section .data
-message db 'Exited from gdt_fill', 10, 0
-newline db 10, 0
 gdtr dw 0
 dd 0 
 
@@ -22,7 +20,6 @@ SEGDESC_USER_CODE   dw 20h
 section .text
 
 extern gdt_fill
-
 global gdt_init
 gdt_init:
 	push ebp

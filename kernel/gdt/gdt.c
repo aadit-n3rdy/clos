@@ -1,6 +1,6 @@
 
-#include "gdt.h"
-#include "terminal.h"
+#include "gdt/gdt.h"
+#include "vga/vga.h"
 #include "util.h"
 
 int gdt_encode_entry(unsigned char *res, struct gdt_entry e)  {
@@ -16,8 +16,8 @@ int gdt_encode_entry(unsigned char *res, struct gdt_entry e)  {
 }
 
 int gdt_fill(void* gdt_begin, void *gdt_end) {
-	term_puts("Filling gdt\n");
-	term_puts("\n");
+	vga_puts("Filling gdt\n");
+	vga_puts("\n");
 	struct gdt_entry gdt_entries[] = {
 		{0, 0, 0, 0},
 		// kernel data
@@ -39,21 +39,21 @@ int gdt_fill(void* gdt_begin, void *gdt_end) {
 	int gdt_count = sizeof(gdt_entries)/sizeof(gdt_entries[0]);
 	int gdt_total = (gdt_end - gdt_begin)>>3;
 
-	term_puts("GDT max. no. of entries: ");
-	term_put_uint(gdt_total, 10);
-	term_puts("\n");
+	vga_puts("GDT max. no. of entries: ");
+	vga_put_uint(gdt_total, 10);
+	vga_puts("\n");
 
 	int i;
 	for (i = 0; i < gdt_count; i++) {
 		gdt_encode_entry(gdt_begin + (i << 3), gdt_entries[i]);
 	}
-	term_puts("Encoded entries\n");
+	vga_puts("Encoded entries\n");
 	for (; i < (gdt_total); i++) {
 		// use NULL entry for all others
 		gdt_encode_entry(gdt_begin + (i << 3), gdt_entries[0]);
 	}
 
-	term_puts("Returning from gdt_fill\n");
+	vga_puts("Returning from gdt_fill\n");
 
 	return 0;
 }

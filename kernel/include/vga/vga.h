@@ -1,12 +1,12 @@
-#ifndef CLOS_TERMINAL_H
-#define CLOS_TERMINAL_H
+#ifndef CLOS_VGA_H
+#define CLOS_VGA_H
 
-#define TERM_DEFAULT_COL 0x0f
+#define VGA_DEFAULT_COL 0x0f
 
-#define TERM_DEFAULT_FG WHITE
-#define TERM_DEFAULT_BG BLACK
+#define VGA_DEFAULT_FG WHITE
+#define VGA_DEFAULT_BG BLACK
 
-enum  TERM_COLORS {
+enum  VGA_COLORS {
 	BLACK			= 0,
 	BLUE			= 1,
 	GREEN			= 2,
@@ -25,16 +25,16 @@ enum  TERM_COLORS {
 	WHITE			= 15
 };
 
-struct terminal_char {
+struct vga_char {
 	unsigned char val;
 	unsigned char col;
 } __attribute__((packed));
 
 
-void term_putchar(unsigned char fg, unsigned char bg, char c);
+void vga_putchar(unsigned char fg, unsigned char bg, char c);
 
-void term_puts(char *str);
+void vga_puts(char *str);
 
-void term_put_uint(unsigned int d, int base);
+void vga_put_uint(unsigned int d, int base);
 
 #endif
