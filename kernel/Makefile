@@ -1,9 +1,9 @@
 
 CURDIR=$(SRCDIR)/kernel
 
-CFLAGS+=-I$(CURDIR)/include
+CFLAGS+=-I$(CURDIR)/include -I${CURDIR}/include/klibc
 
-MODULES:=boot gdt idt util vga
+MODULES:=boot gdt idt util vga klibc
 SRC_C:=$(foreach mod,$(MODULES),$(wildcard $(CURDIR)/$(mod)/*.c))
 SRC_S:=$(foreach mod,$(MODULES),$(wildcard $(CURDIR)/$(mod)/*.asm))
 

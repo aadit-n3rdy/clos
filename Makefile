@@ -12,7 +12,10 @@ endif
 
 OUT_ELF := out/clos.elf
 
-.PHONY: qemu qemu_kernel multiboot clean
+.PHONY: qemu qemu_kernel multiboot clean init
+
+init:
+	@$(MAKE) -C kernel init
 
 out/clos.iso: $(OUT_ELF) multiboot
 	cp $(OUT_ELF) isodir/boot/
