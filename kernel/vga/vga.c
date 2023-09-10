@@ -8,8 +8,19 @@
 struct vga_char* const VGA_BUF = (void*)0xB8000;
 int cursor = 0;
 
+static void inc_cursor();
+static void vga_newline();
+static void scroll();
+
 static void vga_newline() {
-	cursor = COLS + cursor - cursor%COLS;
+	if (!(cursor%COLS)) {
+		VGA_BUF[cursor].val = ' ';
+		inc_cursor();
+	}
+	while (cursor%COLS) {
+		VGA_BUF[cursor].val = ' ';
+		inc_cursor();
+	}
 }
 
 static void scroll() {
@@ -19,7 +30,7 @@ static void scroll() {
 		}
 	}
 	for (int j = 0; j < COLS; j++) {
-		VGA_BUF[COLS * 79 + j] = (struct vga_char){ ' ', (VGA_DEFAULT_BG<<4) | VGA_DEFAULT_FG };
+		VGA_BUF[COLS * (COLS - 1) + j] = (struct vga_char){ ' ', (VGA_DEFAULT_BG<<4) | VGA_DEFAULT_FG };
 	}
 }
 
@@ -27,7 +38,7 @@ static void inc_cursor() {
 	cursor++;
 	if (cursor >= COLS * ROWS) {
 		scroll();
-		cursor = COLS * (ROWS-1) + 1;
+		cursor = COLS * (ROWS-1);
 	}
 }
 
@@ -49,9 +60,6 @@ void vga_puts(char *str) {
 	while (*str != '\0') {
 		vga_putchar(VGA_DEFAULT_FG, VGA_DEFAULT_BG, *str);
 		str++;
-	}
-	if (start == str) {
-		vga_puts("WARN: Empty string\n");
 	}
 }
 

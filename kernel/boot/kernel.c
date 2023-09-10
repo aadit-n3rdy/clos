@@ -6,7 +6,16 @@
 #include "io.h"
 #include "idt/pic.h"
 
+#include <stdint.h>
+
 #include "config.h"
+
+#define TEST_SIZE(TYPE, VAL) vga_puts(#TYPE); \
+	if (sizeof(TYPE) == VAL) { \
+		vga_puts(": Valid\n"); \
+	} else { \
+		vga_puts(": Invalid\n"); \
+	}
 
 void kernel_main() {
 	vga_puts("Hello World!!\n01234\n");
@@ -34,6 +43,7 @@ void kernel_main() {
 
 	vga_puts("\nhuh, inited idt?\n");
 
+
 #ifdef TEST_INT
 	vga_puts("Testing interrupts, will exit after this. Should trigger int 0x08 \
 with err code 0x10\n");
@@ -54,6 +64,20 @@ with err code 0x10\n");
 	__asm__ volatile("sti");
 
 	pic_setmask(0xffff ^ (1<<1));
+	
+	for (int i = 0; i < 30; i++) {
+		vga_putchar(VGA_DEFAULT_FG, VGA_DEFAULT_BG, i + 'a');
+		vga_puts("Hello world!\n");
+		timedelay_exp(8);
+	}
+
+	TEST_SIZE(uint32_t, 4);
+	TEST_SIZE(int32_t, 4);
+	TEST_SIZE(uint16_t, 2);
+	TEST_SIZE(int16_t, 2);
+	TEST_SIZE(uint8_t, 1);
+	TEST_SIZE(int8_t, 1);
+	TEST_SIZE(size_t, sizeof(void*));
 
 	while(1) {
 	}
