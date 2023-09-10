@@ -79,6 +79,10 @@ with err code 0x10\n");
 	TEST_SIZE(int8_t, 1);
 	TEST_SIZE(size_t, sizeof(void*));
 
+	vga_puts("Some shit\n");
+	timedelay_exp(9);
+	vga_puts("Hopefully VGA is without bugs?\n");
+
 	while(1) {
 	}
 

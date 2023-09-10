@@ -30,7 +30,7 @@ static void scroll() {
 		}
 	}
 	for (int j = 0; j < COLS; j++) {
-		VGA_BUF[COLS * (COLS - 1) + j] = (struct vga_char){ ' ', (VGA_DEFAULT_BG<<4) | VGA_DEFAULT_FG };
+		VGA_BUF[COLS * (ROWS - 1) + j].val = ' ';
 	}
 }
 
