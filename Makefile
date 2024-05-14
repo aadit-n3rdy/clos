@@ -13,6 +13,7 @@ endif
 OUT_ELF := out/clos.elf
 
 .PHONY: qemu qemu_kernel multiboot clean init
+.DEFAULT_GOAL:=out/clos.iso
 
 init:
 	@$(MAKE) -C kernel init

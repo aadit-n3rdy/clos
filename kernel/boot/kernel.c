@@ -1,4 +1,3 @@
-
 #include "vga/vga.h"
 #include "util.h"
 #include "gdt/gdt.h"
@@ -16,6 +15,12 @@
 	} else { \
 		vga_puts(": Invalid\n"); \
 	}
+
+extern int _kernel_end;
+extern int _kernel_start;
+
+void *kernel_end = &_kernel_end;
+void *kernel_start = &_kernel_start;
 
 void kernel_main() {
 	vga_puts("Hello World!!\n01234\n");
@@ -43,7 +48,6 @@ void kernel_main() {
 
 	vga_puts("\nhuh, inited idt?\n");
 
-
 #ifdef TEST_INT
 	vga_puts("Testing interrupts, will exit after this. Should trigger int 0x08 \
 with err code 0x10\n");
@@ -65,12 +69,6 @@ with err code 0x10\n");
 
 	pic_setmask(0xffff ^ (1<<1));
 	
-	for (int i = 0; i < 30; i++) {
-		vga_putchar(VGA_DEFAULT_FG, VGA_DEFAULT_BG, i + 'a');
-		vga_puts("Hello world!\n");
-		timedelay_exp(8);
-	}
-
 	TEST_SIZE(uint32_t, 4);
 	TEST_SIZE(int32_t, 4);
 	TEST_SIZE(uint16_t, 2);
@@ -80,8 +78,11 @@ with err code 0x10\n");
 	TEST_SIZE(size_t, sizeof(void*));
 
 	vga_puts("Some shit\n");
-	timedelay_exp(9);
+	timedelay_exp(3);
 	vga_puts("Hopefully VGA is without bugs?\n");
+
+	vga_puts("Space occupied by kernel: 0x");
+	vga_put_uint(kernel_end - kernel_start - 0xC0000000, 16);
 
 	while(1) {
 	}

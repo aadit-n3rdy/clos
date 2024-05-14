@@ -1,3 +1,4 @@
+#include <stdint.h>
 
 void utoa(unsigned int a, char *str, int base) {
 	int i;
